@@ -1,0 +1,95 @@
+<form
+  [formGroup]="taskForm"
+  (ngSubmit)="onSubmit()"
+  class="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-lg max-w-2xl mx-auto space-y-6"
+>
+  <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
+    {{ editingTask ? 'Edit Task' : 'Create Task' }}
+  </h2>
+
+  <!-- Title -->
+  <div class="space-y-1">
+    <label class="block text-sm font-medium text-gray-800 dark:text-gray-200">Title</label>
+    <input
+      type="text"
+      formControlName="title"
+      class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+    />
+    <p class="text-red-600 text-sm" *ngIf="title.invalid && title.touched">
+      Title is required and must be under 100 characters.
+    </p>
+  </div>
+
+  <!-- Description -->
+  <div class="space-y-1">
+    <label class="block text-sm font-medium text-gray-800 dark:text-gray-200">Description</label>
+    <textarea
+      formControlName="description"
+      rows="4"
+      class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+    ></textarea>
+    <p class="text-red-600 text-sm" *ngIf="description.invalid && description.touched">
+      Description must be under 500 characters.
+    </p>
+  </div>
+
+  <!-- Priority and Status -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="space-y-1">
+      <label class="block text-sm font-medium text-gray-800 dark:text-gray-200">Priority</label>
+      <select
+        formControlName="priority"
+        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+      >
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+      </select>
+    </div>
+
+    <div class="space-y-1">
+      <label class="block text-sm font-medium text-gray-800 dark:text-gray-200">Status</label>
+      <select
+        formControlName="status"
+        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+      >
+        <option value="To Do">To Do</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Completed">Completed</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Due Date -->
+  <div class="space-y-1">
+    <label class="block text-sm font-medium text-gray-800 dark:text-gray-200">Due Date</label>
+    <input
+      type="date"
+      formControlName="dueDate"
+      [min]="today"
+      class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+    />
+    <p class="text-red-600 text-sm" *ngIf="dueDate.invalid && dueDate.touched">
+      Due date is required and must be in the future.
+    </p>
+  </div>
+
+  <!-- Buttons -->
+  <div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
+    <button
+      type="submit"
+      [disabled]="taskForm.invalid"
+      class="w-full sm:w-auto px-6 py-2 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      {{ editingTask ? 'Update Task' : 'Save Task' }}
+    </button>
+    <button
+      *ngIf="editingTask"
+      type="button"
+      (click)="resetForm()"
+      class="w-full sm:w-auto px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white font-medium rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+    >
+      Cancel
+    </button>
+  </div>
+</form>

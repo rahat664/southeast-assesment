@@ -1,0 +1,66 @@
+<div class="overflow-x-auto bg-white shadow-md rounded-xl p-4">
+  <h2 class="text-xl font-semibold mb-4">Task List</h2>
+
+  <table class="min-w-full text-sm text-left border border-gray-200">
+    <thead class="bg-gray-200 text-gray-700 uppercase text-xs">
+    <tr>
+      <th class="px-4 py-2">Title</th>
+      <th class="px-4 py-2">Priority</th>
+      <th class="px-4 py-2">Status</th>
+      <th class="px-4 py-2">Due Date</th>
+      <th class="px-4 py-2">Created</th>
+      <th class="px-4 py-2">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let task of tasks" class="border-t border-gray-200">
+      <td class="px-4 py-2 font-medium">{{ task.title }}</td>
+      <td class="px-4 py-2">
+              <span
+                [ngClass]="{
+                  'text-green-600': task.priority === 'Low',
+                  'text-yellow-600': task.priority === 'Medium',
+                  'text-red-600': task.priority === 'High'
+                }"
+              >
+                {{ task.priority }}
+              </span>
+      </td>
+      <td class="px-4 py-2">
+              <span
+                [ngClass]="{
+                  'text-gray-700': task.status === 'To Do',
+                  'text-blue-600': task.status === 'In Progress',
+                  'text-green-700': task.status === 'Completed'
+                }"
+              >
+                {{ task.status }}
+              </span>
+      </td>
+      <td class="px-4 py-2">
+        {{ task.dueDate | date: 'mediumDate' }}
+      </td>
+      <td class="px-4 py-2">
+        {{ task.createdAt | date: 'short' }}
+      </td>
+      <td class="px-4 py-2 flex gap-2">
+        <button
+          (click)="edit.emit(task)"
+          class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-xs"
+        >
+          Edit
+        </button>
+        <button
+          (click)="delete.emit(task.id)"
+          class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs"
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+    <tr *ngIf="!tasks.length">
+      <td colspan="6" class="text-center p-4 text-gray-500">No tasks found</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
